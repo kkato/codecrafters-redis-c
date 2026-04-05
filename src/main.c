@@ -55,7 +55,7 @@ int main() {
 
 	int client_fd = accept(server_fd, (struct sockaddr *) &client_addr, &client_addr_len);
 	if  (client_fd == -1) {
-		printf("Accept failed: %s \n", sterror(errno));
+		printf("Accept failed: %s \n", strerror(errno));
 		close(server_fd);
 		return 1;
 	}
