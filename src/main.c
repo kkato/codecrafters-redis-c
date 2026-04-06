@@ -61,9 +61,15 @@ int main() {
 	}
 	printf("Client connected\n");
 
-	const char *response = "+PONG\r\n";
-	if (send(client_fd, response, strlen(response), 0) == -1) {
-		printf("Send failed: %s \n", strerror(errno));
+	char buf[1024];
+	ssize_t bytes_read;
+	const char *pong = "+PONG\r\n";
+
+	while ((bytes_read = read(client_fd, buf, sizeof(buf))) > 0) {
+		if (write(client_fd, pong, strlen(pong)) == -1) {
+			printf("Write failed: %s \n", strerror(errno));
+			break;
+		}
 	}
 
 	close(client_fd);
